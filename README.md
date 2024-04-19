@@ -81,7 +81,65 @@ Nas seções seguintes, você encontrará explicações detalhadas de cada uma d
 - `AVG(vote_average) AS media_avaliacao`: A função agregada AVG(vote_average) calcula a média das avaliações (vote_average) de todos os filmes de cada gênero especificado na cláusula GROUP BY genres. Ou seja, ela gera a média das avaliações para cada gênero de filmes.
 - Ao usar AS media_avaliacao, estamos renomeando o resultado da função AVG(vote_average) para media_avaliacao, facilitando a identificação dos dados no resultado da consulta. Isso ajuda a tornar a consulta mais legível, permitindo que o resultado da média das avaliações seja acessado com o nome media_avaliacao nas instruções posteriores.
 
-### Consulta 
+### Consulta para os 10 filmes de ação mais populares que têm o Inglês (en) como idioma original lançados a partir de 2023
+
+    SELECT title, popularity, original_language, release_date, genres FROM filmes WHERE genres LIKE '%Action%' AND original_language = 'en' AND release_date > '2022-12-31' ORDER BY popularity DESC LIMIT 10
+
+- A consulta SQL (SELECT title, popularity, original_language, release_date, genres FROM filmes WHERE genres LIKE '%Action%' AND original_language = 'en' AND release_date > '2022-12-31' ORDER BY popularity DESC LIMIT 10) é usada para selecionar os títulos (title), pontuações de popularidade (popularity), idiomas originais (original_language), datas de lançamento (release_date) e gêneros (genres) dos 10 filmes de ação mais populares em inglês lançados a partir de 2023.
+- `SELECT title, popularity, original_language, release_date, genres`: A cláusula SELECT especifica as colunas que queremos recuperar da tabela filmes: título do filme (title), pontuação de popularidade (popularity), idioma original (original_language), data de lançamento (release_date) e gêneros (genres).
+- `WHERE genres LIKE '%Action%'`: A cláusula WHERE filtra os resultados para incluir apenas os filmes cujo gênero (genres) contém a palavra "Action". O operador LIKE com o uso de curinga (%) permite combinar qualquer gênero que contenha "Action".
+- O operador LIKE é um operador SQL utilizado para realizar buscas com base em padrões de texto.
+- O curinga % é um caractere especial usado com o operador LIKE para representar qualquer sequência de caracteres. 
+- `AND original_language` = 'en': Filtra os resultados para incluir apenas os filmes cujo idioma original (original_language) seja inglês ('en').
+- `AND release_date > '2022-12-31'`: Filtra os resultados para incluir apenas os filmes com data de lançamento (release_date) posterior a 31 de dezembro de 2022.
+
+### Consulta para listar os 10 filmes cuja duração é maior que a média de duração dos gêneros desses filmes
+
+#### Consulta principal
+    SELECT f.title, f.genres, f.runtime, md.media_duracao
+    FROM filmes AS f
+    JOIN media_duracao_por_genero AS md ON f.genres = md.genres
+    WHERE f.runtime > md.media_duracao
+    ORDER BY f.runtime DESC
+    LIMIT 10
+
+ - `SELECT f.title, f.genres, f.runtime, md.media_duracao`: Seleciona as colunas title (título do filme), genres (gêneros do filme), runtime (duração do filme em minutos), e media_duracao (média de duração dos gêneros) das tabelas filmes (abreviada como f) e media_duracao_por_genero (abreviada como md).
+ - `FROM filmes AS f`: Especifica a tabela de origem (filmes) para a consulta principal, referenciada pelo alias f.
+ - `JOIN media_duracao_por_genero AS md ON f.genres = md.genres`: Realiza um join entre as tabelas filmes e media_duracao_por_genero, correspondendo os gêneros (genres) de ambas as tabelas.
+ - `WHERE f.runtime > md.media_duracao`: Filtra os resultados para incluir apenas os filmes (f.runtime) com duração maior que a média de duração dos gêneros (md.media_duracao) correspondentes.
+ - `ORDER BY f.runtime DESC`: Ordena os resultados com base na duração (f.runtime) em ordem decrescente (do maior para o menor).
+ - `LIMIT 10`: Limita o resultado a apenas 10 filmes.
+
+##### Subconsulta
+    WITH media_duracao_por_genero AS (
+    SELECT genres, AVG(runtime) as media_duracao
+    FROM filmes
+    GROUP BY genres)
+
+- `WITH media_duracao_por_genero AS`: Define uma subconsulta (ou CTE, Common Table Expression) chamada media_duracao_por_genero.
+- `SELECT genres, AVG(runtime) as media_duracao`: Seleciona os gêneros (genres) dos filmes e calcula a média de duração (AVG(runtime)) para cada gênero.
+- `FROM filmes`: Especifica a tabela filmes como a origem dos dados para calcular a média de duração.
+- `GROUP BY genres`: Agrupa os resultados pelos gêneros para calcular a média de duração separadamente para cada gênero.
+
+### Consulta para retornar o total de filmes por ano de lançamento
+
+    SELECT STRFTIME('%Y', release_date) AS ano, COUNT(*) AS total_filmes
+    FROM filmes
+    WHERE release_date IS NOT NULL AND release_date != ''
+    GROUP BY ano
+    ORDER BY total_filmes DESC
+
+ - A consulta SQL em questão é usada para contar o total de filmes lançados por ano. Os dados são agrupados por ano de lançamento (ano) e a consulta retorna o total de filmes (total_filmes) para cada ano.
+ - `SELECT STRFTIME('%Y', release_date) AS ano, COUNT(*) AS total_filmes`: Seleciona o ano de lançamento (ano) a partir da data de lançamento (release_date) usando a função STRFTIME com o formato de ano ('%Y') e o total de filmes (total_filmes) usando a função agregada COUNT(*).
+ - `WHERE release_date IS NOT NULL AND release_date != ''`: Filtra os resultados para incluir apenas filmes com datas de lançamento válidas (não nulas e não vazias).
+ - `GROUP BY ano`: Agrupa os resultados por ano de lançamento (ano) para calcular o total de filmes em cada ano.
+ - `ORDER BY total_filmes DESC`: Ordena os resultados com base no total de filmes em ordem decrescente (do maior para o menor), para destacar os anos com mais lançamentos.
+
+
+
+
+
+
 
     
 
