@@ -135,24 +135,180 @@ Nas seções seguintes, você encontrará explicações detalhadas de cada uma d
  - `GROUP BY ano`: Agrupa os resultados por ano de lançamento (ano) para calcular o total de filmes em cada ano.
  - `ORDER BY total_filmes DESC`: Ordena os resultados com base no total de filmes em ordem decrescente (do maior para o menor), para destacar os anos com mais lançamentos.
 
+### Consulta para calcular o total de filmes por idioma
 
+    SELECT original_language, COUNT(*) AS total_filmes
+    FROM filmes
+    WHERE original_language IS NOT NULL AND original_language != ''
+    GROUP BY original_language
+    ORDER BY total_filmes DESC
 
+ - A consulta SQL em questão é usada para contar o total de filmes por idioma. A consulta agrupa os resultados pelo idioma original (original_language) dos filmes e retorna o total de filmes (total_filmes) para cada idioma.
+ - `SELECT original_language, COUNT(*) AS total_filmes`: Seleciona o idioma original (original_language) e o total de filmes (total_filmes) usando a função agregada COUNT(*).
+ - `GROUP BY original_language`: Agrupa os resultados pelo idioma original (original_language) para calcular o total de filmes em cada idioma.
 
+### Consulta para retornar os 10 filmes com os maiores orçamentos
 
+    SELECT title, budget
+    FROM filmes
+    ORDER BY budget DESC
+    LIMIT 10
 
+ - A consulta SQL em questão é usada para obter esses filmes, ordenando-os em ordem decrescente de orçamento.
+ - `SELECT title, budget`: Seleciona o título (title) e o orçamento (budget) dos filmes.
+ - `ORDER BY budget DESC`: Ordena os resultados pela coluna budget (orçamento) em ordem decrescente (DESC), o que significa que os filmes com os maiores orçamentos aparecerão primeiro na lista.
 
-    
+### Consulta para retornar os 10 filmes com as maiores bilheterias
 
+    SELECT title, revenue
+    FROM filmes
+    ORDER BY revenue DESC
+    LIMIT 10
 
+ - A consulta SQL em questão obtém esses filmes, ordenando-os em ordem decrescente de bilheteria.
+ - `SELECT title, revenue`: Seleciona o título (title) e a bilheteria (revenue) dos filmes.
+ - `ORDER BY revenue DESC`: Ordena os resultados pela coluna revenue (bilheteria) em ordem decrescente (DESC), ou seja, os filmes com as maiores bilheterias aparecerão primeiro na lista.
 
+### Consulta para retornar os 10 filmes com os maiores retornos sobre o investimento
 
+    SELECT title, revenue, budget, (revenue / budget) AS retorno_investimento
+    FROM filmes
+    WHERE budget > 0
+    ORDER BY retorno_investimento DESC
+    LIMIT 10
 
+ - A consulta SQL em questão obtém esses filmes, calculando o retorno sobre o investimento para cada um deles.
+ - `SELECT title, revenue, budget, (revenue / budget) AS retorno_investimento`: Seleciona o título (title), a bilheteria (revenue), o orçamento (budget) e calcula o retorno sobre o investimento (revenue / budget) para cada filme. O cálculo do retorno sobre o investimento é feito dividindo a receita pelo orçamento de cada filme.
+ - `WHERE budget > 0`: Filtra os resultados para considerar apenas filmes que tenham um orçamento (budget) maior que zero.
+ - `ORDER BY retorno_investimento DESC`: Ordena os resultados pela coluna retorno_investimento em ordem decrescente (DESC), ou seja, os filmes com os maiores retornos sobre o investimento aparecerão primeiro na lista.
 
+### Consulta para obter os 10 filmes com alta popularidade e baixa média de votos
 
+    SELECT title, popularity, vote_average
+    FROM filmes
+    WHERE popularity > (SELECT AVG(popularity) FROM filmes)
+    AND vote_average < (SELECT AVG(vote_average) FROM filmes)
+    ORDER BY popularity DESC
+    LIMIT 10
 
-- O método fetchone() é usado para obter o resultado da consulta. O primeiro elemento retornado pela consulta (cursor.fetchone()) é o número total de filmes.
+ - A consulta SQL em questão obtém os 10 filmes com alta popularidade, mas com baixa média de votos.
+ - `SELECT title, popularity, vote_average`: Seleciona o título (title), a popularidade (popularity) e a média de votos (vote_average) para cada filme.
+ - `WHERE popularity > (SELECT AVG(popularity) FROM filmes)`: Filtra os filmes com popularidade (popularity) maior que a média de popularidade de todos os filmes.
+ - `AND vote_average < (SELECT AVG(vote_average) FROM filmes)`: Adiciona uma condição para filtrar os filmes com média de votos (vote_average) menor que a média de votos de todos os filmes.
+ - `ORDER BY popularity DESC`: Ordena os resultados pela coluna popularity em ordem decrescente (DESC), ou seja, os filmes com a maior popularidade aparecerão primeiro na lista.
+ - `LIMIT 10`: Limita a quantidade de resultados a 10 filmes, selecionando apenas os 10 filmes com alta popularidade e baixa média de votos.
+
+### Consulta para obter os 10 filmes com baixa popularidade e alta média de votos
+
+    SELECT title, popularity, vote_average
+    FROM filmes
+    WHERE popularity < (SELECT AVG(popularity) FROM filmes)
+    AND vote_average > (SELECT AVG(vote_average) FROM filmes)
+    ORDER BY vote_average DESC
+    LIMIT 10
+
+ - A consulta SQL em questão obtém os 10 filmes com baixa popularidade, mas com alta média de votos.
+ - `SELECT title, popularity, vote_average`: Seleciona o título (title), a popularidade (popularity) e a média de votos (vote_average) para cada filme.
+ - `WHERE popularity < (SELECT AVG(popularity) FROM filmes)`: Filtra os filmes com popularidade (popularity) menor que a média de popularidade de todos os filmes.
+ - `AND vote_average > (SELECT AVG(vote_average) FROM filmes)`: Adiciona uma condição para filtrar os filmes com média de votos (vote_average) maior que a média de votos de todos os filmes.
+ - `ORDER BY vote_average DESC`: Ordena os resultados pela coluna vote_average em ordem decrescente (DESC), ou seja, os filmes com a maior média de votos aparecerão primeiro na lista.
+ - `LIMIT 10`: Limita a quantidade de resultados a 10 filmes, selecionando apenas os 10 filmes com baixa popularidade e alta média de votos.
+
+### Consulta para obter os 10 filmes com mais participações de diferentes países
+
+    SELECT title, LENGTH(production_countries) - LENGTH(REPLACE(production_countries, ', ', '')) + 1 AS num_paises
+    FROM filmes
+    ORDER BY num_paises DESC
+    LIMIT 10
+
+- A consulta SQL em questão obtém os 10 filmes com mais participações de diferentes países.
+- `SELECT title, LENGTH(production_countries) - LENGTH(REPLACE(production_countries, ', ', '')) + 1 AS num_paises`: Seleciona o título (title) e calcula o número de participações de diferentes países (num_paises) para cada filme. O cálculo de num_paises é feito contando o número de vírgulas (, ) na coluna production_countries e adicionando 1 para obter o total de participações de países.
+- `ORDER BY num_paises DESC`: Ordena os resultados pela coluna num_paises em ordem decrescente (DESC), ou seja, os filmes com mais participações de diferentes países aparecerão primeiro na lista.
+
+### Consulta para obter filmes com títulos idênticos, mas de idiomas diferentes
+
+    SELECT f1.title, f2.title, f1.id, f2.id, f1.original_language, f2.original_language
+    FROM filmes AS f1
+    JOIN filmes AS f2 ON f1.title = f2.title AND f1.id != f2.id AND f1.original_language != f2.original_language
+    ORDER BY f1.title DESC LIMIT 10
+
+- A consulta SQL em questão obtém os filmes que têm títulos idênticos, mas que são de idiomas diferentes.
+- `SELECT f1.title, f2.title, f1.id, f2.id, f1.original_language, f2.original_language`: Seleciona os títulos, IDs e idiomas de dois filmes (f1 e f2) que possuem títulos idênticos, mas são de idiomas diferentes.
+- `FROM filmes AS f1`: Especifica a tabela filmes como a origem dos dados para f1.
+- `JOIN filmes AS f2 ON f1.title = f2.title AND f1.id != f2.id AND f1.original_language != f2.original_language`: Realiza uma junção (JOIN) entre os filmes f1 e f2 com base nos títulos idênticos (f1.title = f2.title), certificando-se de que não sejam o mesmo filme (f1.id != f2.id) e que tenham idiomas diferentes (f1.original_language != f2.original_language).
+- `ORDER BY f1.title DESC LIMIT 10`: Ordena os resultados pelo título de f1 em ordem decrescente (DESC) e limita a quantidade de resultados a 10 pares de filmes com títulos idênticos e idiomas diferentes.
+
+### Consulta para obter os meses com mais lançamentos de filmes
+
+    SELECT 
+    CASE STRFTIME('%m', release_date)
+        WHEN '01' THEN 'Janeiro'
+        WHEN '02' THEN 'Fevereiro'
+        WHEN '03' THEN 'Março'
+        WHEN '04' THEN 'Abril'
+        WHEN '05' THEN 'Maio'
+        WHEN '06' THEN 'Junho'
+        WHEN '07' THEN 'Julho'
+        WHEN '08' THEN 'Agosto'
+        WHEN '09' THEN 'Setembro'
+        WHEN '10' THEN 'Outubro'
+        WHEN '11' THEN 'Novembro'
+        WHEN '12' THEN 'Dezembro'
+        ELSE 'Desconhecido'
+    END AS mes_portugues,
+    COUNT(*) AS total_filmes
+    FROM filmes
+    WHERE release_date IS NOT NULL AND release_date != ''
+    GROUP BY mes_portugues
+    ORDER BY total_filmes DESC
+
+ - A consulta SQL em questão obtém os meses em português em que houve o maior número de lançamentos de filmes, bem como o total de filmes lançados em cada mês.
+ - `SELECT`: Seleciona o mês em português e o total de filmes lançados nesse mês.
+ - `CASE STRFTIME('%m', release_date)`: Utiliza uma função CASE para converter o mês da data de lançamento (release_date) em seu equivalente em português. O formato %m extrai  o mês da data.
+ - `WHEN '01' THEN 'Janeiro'`: Traduz o número do mês para o nome do mês em português. Isso é feito para todos os meses de janeiro a dezembro.
+ - `END AS mes_portugues`: A saída do CASE é renomeada para mes_portugues.
+ - `COUNT(*) AS total_filmes`: Conta o número total de filmes lançados em cada mês e renomeia essa contagem para total_filmes.
+ - `FROM filmes`: Especifica a tabela filmes como a origem dos dados.
+ - `WHERE release_date IS NOT NULL AND release_date != ''`: Filtra os resultados para garantir que a data de lançamento (release_date) não seja nula ou vazia.
+ - `GROUP BY mes_portugues`: Agrupa os filmes por mês em português.
+ - `ORDER BY total_filmes DESC`: Ordena os resultados em ordem decrescente com base no total de filmes lançados por mês.
+
+### Consulta para obter os 10 filmes mais populares com a temática Inteligência Artificial
+
+    SELECT title, keywords, popularity 
+    FROM filmes 
+    WHERE keywords LIKE '%artificial intelligence%' 
+    ORDER BY popularity DESC 
+    LIMIT 10
+
+ - Essa consulta SQL busca os filmes que contêm a palavra-chave "artificial intelligence" em seus dados de palavras-chave (keywords), e ordena os resultados pela popularidade em ordem decrescente e limita o resultado aos 10 filmes mais populares.
+ - `SELECT title, keywords, popularity`: Seleciona o título (title), palavras-chave (keywords) e popularidade (popularity) dos filmes.
+ - `WHERE keywords LIKE '%artificial intelligence%'`: Filtra os resultados para incluir apenas filmes que contenham a palavra-chave "artificial intelligence" em seus dados de palavras-chave (keywords).
+
+### Consulta para obter os filmes mais populares lançados no dia 04/04/1999
+
+    SELECT title, vote_average, genres, release_date 
+    FROM filmes 
+    WHERE release_date == '1999-04-04' 
+    ORDER BY vote_average DESC 
+    LIMIT 10
+
+ - Essa consulta SQL obtém os filmes mais populares lançados no dia 04/04/1999.
+ - `SELECT title, vote_average, genres, release_date`: Seleciona o título (title), média de votos (vote_average), gêneros (genres) e data de lançamento (release_date) dos filmes.
+ - `WHERE release_date == '1999-04-04'`: Filtra os resultados para incluir apenas filmes lançados na data 04/04/1999.
+
+### Consulta SQL para obter informações sobre as colunas da tabela
+
+    PRAGMA table_info(nome_tabela)
+
+ - A instrução SQL em questão exibe os nomes das colunas de uma tabela específica em um banco de dados SQLite. Ela realiza uma consulta usando a instrução PRAGMA table_info para obter informações sobre as colunas da tabela especificada.
+
+## Conceitos importantes
+
 - `fetchone` é um método utilizado em cursors que permite recuperar a próxima linha de resultados de uma consulta SQL. Ele é usado para obter um único registro de cada vez do conjunto de resultados retornado por uma consulta.
+- `fetchall`: É um método utilizado em cursors que permite recuperar todas as linhas de resultados de uma consulta SQL de uma só vez. O resultado é uma lista de tuplas, com cada tupla representando uma linha do conjunto de resultados.
 - `cursors` são objetos utilizados para interagir com um banco de dados a partir de uma aplicação. Um cursor atua como uma ponte entre a aplicação e o banco de dados, permitindo a execução de consultas e a manipulação de dados de forma eficiente.
+- `execute`: É um método utilizado em cursors para executar consultas SQL ou comandos DML (Data Manipulation Language) como INSERT, UPDATE ou DELETE. O método aceita uma string com a consulta ou comando SQL a ser executado.
 
 
 
