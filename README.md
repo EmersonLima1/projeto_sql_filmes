@@ -20,8 +20,6 @@ Neste repositório, você encontrará:
 
 - **Códigos Python**: Os scripts Python usados no projeto estão disponíveis para download e visualização. Esses códigos demonstram como utilizar Python em conjunto com SQL para realizar consultas no banco de dados de filmes.
 
-- **Banco de Dados `filmes.db`**: O banco de dados `filmes.db` é uma versão do conjunto de dados do TMDb (The Movie Database) transformada em um banco de dados SQLite3. Ele contém aproximadamente 1.000.000 de filmes com informações detalhadas, incluindo títulos, avaliações, datas de lançamento, receitas, gêneros e muito mais.
-
 ## Explicação das Consultas Utilizadas no Projeto
 
 Neste projeto, você terá a oportunidade de aprender sobre as consultas SQL utilizadas em conjunto com Python para manipular o banco de dados `filmes.db`. As consultas são feitas com base nas escolhas do usuário durante a execução do código `app.py`.
@@ -30,7 +28,7 @@ Quando o código `app.py` é executado, uma interface de terminal é exibida, ap
 
 Ao escolher uma opção, um método correspondente é chamado a partir do arquivo `funcoes_db.py`. Cada método executa uma consulta SQL diferente no banco de dados `filmes.db` para retornar as informações solicitadas pelo usuário.
 
-O código `criar_banco.py` é responsável por transformar o arquivo CSV baixado do Kaggle em um banco de dados SQLite3 (`filmes.db`). Esse processo facilita a manipulação e a realização de consultas eficientes no banco de dados usando SQL em conjunto com Python.
+O código criar_banco.py é responsável por criar um banco de dados SQLite3 (`filmes.db`) com base em um arquivo CSV baixado do Kaggle. Para utilizar o script, faça o download do arquivo CSV e coloque-o na mesma pasta que o código `criar_banco.py`. Ao executar o script, ele importará os dados do arquivo CSV e criará um banco de dados com as informações correspondentes. Esse processo facilita a manipulação e a realização de consultas eficientes no banco de dados usando SQL em conjunto com Python.
 
 Nas seções seguintes, você encontrará explicações detalhadas de cada uma das consultas utilizadas no projeto:
 
