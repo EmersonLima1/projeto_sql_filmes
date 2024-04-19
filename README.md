@@ -26,6 +26,8 @@ Neste projeto, você terá a oportunidade de aprender sobre as consultas SQL uti
 
 Quando o código `app.py` é executado, uma interface de terminal é exibida, apresentando diferentes opções ao usuário. Cada opção corresponde a uma consulta específica a ser executada no banco de dados.
 
+![Tela de opções](https://github.com/EmersonLima1/projeto_sql_filmes/blob/main/app/img/tela_opcoes.PNG)
+
 Ao escolher uma opção, um método correspondente é chamado a partir do arquivo `funcoes_db.py`. Cada método executa uma consulta SQL diferente no banco de dados `filmes.db` para retornar as informações solicitadas pelo usuário.
 
 O código criar_banco.py é responsável por criar um banco de dados SQLite3 (`filmes.db`) com base em um arquivo CSV baixado do Kaggle. Para utilizar o script, faça o download do arquivo CSV e coloque-o na mesma pasta que o código `criar_banco.py`. Ao executar o script, ele importará os dados do arquivo CSV e criará um banco de dados com as informações correspondentes. Esse processo facilita a manipulação e a realização de consultas eficientes no banco de dados usando SQL em conjunto com Python.
