@@ -544,7 +544,7 @@ def filmes_tematica_ia(conn):
     # Exibe a tabela no console
     console.print(table)
 
-# Função para exibir os filmes mais populares lançados no dia 04/04/1999
+# Função para exibir os filmes melhores avaliados lançados no dia 04/04/1999
 def filmes_lancados_04_04_1999(conn):
     
     # Consulta SQL para obter os filmes lançados em 04/04/1999, ordenados por média de votos
@@ -560,7 +560,7 @@ def filmes_lancados_04_04_1999(conn):
     cursor = conn.execute(consulta)
     
     # Cria uma tabela visual para exibir os resultados
-    table = Table(title="Filmes mais populares lançados no dia 04/04/1999")
+    table = Table(title="Filmes melhores avaliados lançados no dia 04/04/1999")
     table.add_column("Filmes", style="cyan")
     table.add_column("Média de votos", style="magenta")
     table.add_column("Gêneros", style="blue")
