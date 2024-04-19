@@ -285,7 +285,7 @@ Nas seções seguintes, você encontrará explicações detalhadas de cada uma d
  - `SELECT title, keywords, popularity`: Seleciona o título (title), palavras-chave (keywords) e popularidade (popularity) dos filmes.
  - `WHERE keywords LIKE '%artificial intelligence%'`: Filtra os resultados para incluir apenas filmes que contenham a palavra-chave "artificial intelligence" em seus dados de palavras-chave (keywords).
 
-### Consulta para obter os filmes mais populares lançados no dia 04/04/1999
+### Consulta para obter os filmes melhores avaliados lançados no dia 04/04/1999
 
     SELECT title, vote_average, genres, release_date 
     FROM filmes 
@@ -293,7 +293,7 @@ Nas seções seguintes, você encontrará explicações detalhadas de cada uma d
     ORDER BY vote_average DESC 
     LIMIT 10
 
- - Essa consulta SQL obtém os filmes mais populares lançados no dia 04/04/1999.
+ - Essa consulta SQL obtém os filmes melhores avaliados lançados no dia 04/04/1999.
  - `SELECT title, vote_average, genres, release_date`: Seleciona o título (title), média de votos (vote_average), gêneros (genres) e data de lançamento (release_date) dos filmes.
  - `WHERE release_date == '1999-04-04'`: Filtra os resultados para incluir apenas filmes lançados na data 04/04/1999.
 
