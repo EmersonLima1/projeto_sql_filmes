@@ -2,7 +2,7 @@ import pandas as pd
 import sqlite3
 
 # Leitura do arquivo CSV
-df = pd.read_csv('dados/TMDB_movie_dataset_v11.csv')
+df = pd.read_csv('TMDB_movie_dataset_v11.csv')
 
 # Conexão com o banco de dados SQLite
 conn = sqlite3.connect('filmes.db')
